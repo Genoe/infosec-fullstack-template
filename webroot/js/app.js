@@ -17,6 +17,18 @@ class App extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        console.log(this.state.searchType);
+        axios.get(`/api/index.php/name/${this.state.search}`, {
+            params: {
+                fullName: this.state.searchType === 'Full Name'
+            }
+        })
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log('ERROR', err);
+        });
     }
   
     render() {  
