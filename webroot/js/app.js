@@ -5,15 +5,18 @@ class App extends React.Component {
         super(props);
         this.state = {
             search: '',
+            searchType: 'Name',
         };
     }
     
     handleChange = e => {
-        e.preventDefault();
         this.setState({
             [e.target.name]: e.target.value
         });
-        console.log(this.state.search);
+    }
+
+    handleSubmit = e => {
+        e.preventDefault();
     }
   
     render() {  
@@ -35,8 +38,8 @@ class App extends React.Component {
                             />
                         </div>
                         <div className="col-md-4 form-group">
-                            <label htmlFor="search-type">Search Type</label>
-                            <select className="form-control">
+                            <label htmlFor="searchType">Search Type</label>
+                            <select className="form-control" name="searchType" id="searchType" onChange={this.handleChange}>
                                 <option>Name</option>
                                 <option>Full Name</option>
                                 <option>Country Code</option>
