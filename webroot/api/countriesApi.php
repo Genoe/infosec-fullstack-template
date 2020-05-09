@@ -27,7 +27,32 @@
         $response = curl_exec($curl);
         curl_close($curl);
 
-        return $response;
+        return json_decode($response);
+    }
+
+    public function getDataSubset($response) {
+        $countries = array();
+        $data = (array) $response;
+
+        foreach ($data as $result) {
+            $langNames = array();
+            foreach ($result->languages as $language) {
+                array_push($langNames, $language->name);
+            }
+
+            array_push($countries,[
+                'name' => $result->name,
+                'alpha2code' => $result->alpha2Code,
+                'alpha3code' => $result->alpha3Code,
+                'flag' => $result->flag,
+                'region' => $result->region,
+                'subregion' => $result->subregion,
+                'population' => $result->population,
+                'languages' => $langNames
+            ]);
+        }
+        
+        return $countries;
     }
 }
 ?>
