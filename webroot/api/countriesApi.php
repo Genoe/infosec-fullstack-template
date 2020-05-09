@@ -9,6 +9,7 @@
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_FAILONERROR => true
     ];
 
     public function getCountriesByName($name, $fullName = false) {
@@ -25,6 +26,12 @@
         );
           
         $response = curl_exec($curl);
+
+        if (curl_error($curl)) {
+            $response = curl_error($curl);
+            throw new Exception($response);
+        }
+
         curl_close($curl);
 
         return (array)json_decode($response);
