@@ -18,7 +18,7 @@ if (isset($_GET['fullName'])) {
 if ($pathInfo[3] === 'name') {
    $countryName = $pathInfo[4];
    $data = $api->getCountriesByName($countryName, $fullName);
-   $data = $api->getDataSubset($data);
+   $data = $api->generateData($data);
 }
 
 header('Content-Type: application/json');

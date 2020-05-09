@@ -27,12 +27,14 @@
         $response = curl_exec($curl);
         curl_close($curl);
 
-        return json_decode($response);
+        return (array)json_decode($response);
     }
 
-    public function getDataSubset($response) {
+    public function generateData($response) {
         $countries = array();
-        $data = (array) $response;
+        $regions = array();
+        $subRegions = array();
+        $data = $response;
 
         foreach ($data as $result) {
             $langNames = array();
@@ -50,9 +52,15 @@
                 'population' => $result->population,
                 'languages' => $langNames
             ]);
+
+            $regions[$result->region] = $regions[$result->region] ?? 0;
+            $regions[$result->region]++;
+
+            $subRegions[$result->subregion] = $subRegions[$result->subregion] ?? 0;
+            $subRegions[$result->subregion]++;
         }
         
-        return $countries;
+        return array('countries' => $countries, 'regions' => $regions, 'subregions' => $subRegions);
     }
 }
 ?>
