@@ -9,10 +9,8 @@ $pathInfo = explode('/', $pathInfo);
 
 $api = new CountriesAPI();
 
-if (isset($_GET['fullName'])) {
-   if (strtolower($_GET['fullName']) !== 'false') {
-      $fullName = true;
-   }
+if (isset($_GET['fullName']) && strtolower($_GET['fullName']) !== 'false') {
+   $fullName = true;
 }
 
 if ($pathInfo[3] === 'name') {
