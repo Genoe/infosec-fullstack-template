@@ -17,8 +17,8 @@ if ($pathInfo[3] === 'name') {
    $countryName = $pathInfo[4];
    try {
       $data = $api->getCountriesByName($countryName, $fullName);
-      $data = $api->sortByPopulation($data['countries']);
       $data = $api->generateData($data);
+      $data['countries'] = $api->sortByPopulation($data['countries']);
    } catch (Exception $e) {
       http_response_code(500);
       $data = $e->getMessage();
