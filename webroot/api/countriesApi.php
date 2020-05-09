@@ -62,5 +62,13 @@
         
         return array('countries' => $countries, 'regions' => $regions, 'subregions' => $subRegions);
     }
+
+    public function sortByPopulation($array) {
+        usort($array, function($a, $b) {
+            return $b['population'] <=> $a['population'];
+        });
+
+        return $array;
+    }
 }
 ?>
