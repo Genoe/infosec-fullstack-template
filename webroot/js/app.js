@@ -1,5 +1,11 @@
 //Write your javascript here, or roll your own. It's up to you.
 //Make your ajax call to http://localhost:8765/api/index.php here
+function ErrorMsg({message}) {
+    return (
+        <div className="alert alert-danger text-center">{message}</div>       
+    );
+}
+
 function SearchBar({search, handleChange, handleSubmit}) {   
     return (
         <div>
@@ -42,7 +48,8 @@ class App extends React.Component {
         this.state = {
             search: '',
             searchType: 'Name',
-            results: {}
+            results: {},
+            error: ''
         };
     }
     
@@ -55,26 +62,44 @@ class App extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         console.log(this.state.searchType);
+        if (this.state.search === '') {
+            this.setState({
+                error: 'Please enter a search query'
+            });
+
+            return;
+        }
+
         axios.get(`/api/index.php/name/${this.state.search}`, {
             params: {
                 fullName: this.state.searchType === 'Full Name'
             }
         })
-        .then((res) => {
+        .then(res => {
             console.log(res.data);
         })
         .catch(err => {
-            console.log('ERROR', err);
-        });
+            console.log(err.message);
+            this.setState({
+                error: 'There are no results'
+            });          
+        });        
     }
   
-    render() {  
+    render() {
+        const {error, search} = this.state;
+
         return (
-            <SearchBar
-                search={this.state.search}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-            />
+            <div>
+                {error && (
+                    <ErrorMsg message={error} />
+                )}
+                <SearchBar
+                    search={search}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                />
+            </div>       
        );
     }
 }
