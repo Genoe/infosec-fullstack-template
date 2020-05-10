@@ -1,9 +1,11 @@
 # Fullstack evaluation template
-
+This repo is for a take-home project given out for an interview.
+The app follows the template given. Instructions to run are in the section below.
+On the backend, PHP is used to fetch data from the REST Countries API, get the needed values, and 
+sort by population in descending order. On the frontend, React.js (along with Babel) is used to handle state and make
+a simple single-page application. The Axios libray is used to make HTTP requests to the backend.
+Bootstrap CSS is used to create a basic UI that workes well on different screen sizes. 
 ## How to use
-The files included in this repository are here to get you started by giving
-you an idea on how you might start the project.
-
 To start the server open a terminal window on unix/linux based systems and change
 directory to the project root. Then execute this command:
 
