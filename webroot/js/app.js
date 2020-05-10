@@ -1,5 +1,28 @@
 //Write your javascript here, or roll your own. It's up to you.
 //Make your ajax call to http://localhost:8765/api/index.php here
+function RegionsTable({regions}) {
+    return (
+        <table className="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Region</th>
+                    <th scope="col">Number of Countries in Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                {Object.entries(regions).map(([region, freq], i) => {
+                    return (
+                        <tr key={i}>
+                            <th scope="row">{region !== '' ? region : 'Regionless'}</th>
+                            <td>{freq}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+    );
+}
+
 function CountriesTable({countries}) {
     return (
         <table className="table table-striped table-bordered">
@@ -44,7 +67,7 @@ function ErrorMsg({message}) {
 function SearchBar({search, handleChange, handleSubmit}) {   
     return (
         <div>
-            <h2 className="justify-content-md-center text-center">Countries Search</h2>
+            <h1 className="justify-content-md-center text-center">Countries Search</h1>
             <div className="text-center" id="form-container">
                 <form onSubmit={handleSubmit}>
                     <div className="form-row">
@@ -141,9 +164,17 @@ class App extends React.Component {
                     handleSubmit={this.handleSubmit}
                 />
                 {results && (
-                    <CountriesTable
-                        countries={results.countries}
-                    />
+                    <div>
+                        <CountriesTable
+                            countries={results.countries}
+                        />
+                        <h2 className="justify-content-md-center text-center">
+                            Total Number of Countries: {results.countries.length}
+                        </h2>
+                        <RegionsTable
+                            regions={results.regions}
+                        />
+                    </div>                 
                 )}
             </div>       
        );
