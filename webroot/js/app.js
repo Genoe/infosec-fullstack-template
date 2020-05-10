@@ -138,13 +138,13 @@ class App extends React.Component {
         if (searchType === 'Name' || searchType === 'Full Name') {
             searchUrlPath = 'name';
             params = {
-                fullName: this.state.searchType === 'Full Name'
+                fullName: searchType === 'Full Name'
             }
         } else {
             searchUrlPath = 'alpha';
         }
 
-        axios.get(`/api/index.php/${searchUrlPath}/${this.state.search}`, params)
+        axios.get(`/api/index.php/${searchUrlPath}/${this.state.search}`, {params})
         .then(res => {
             this.setState({
                 error: '',
