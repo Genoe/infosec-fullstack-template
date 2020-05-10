@@ -1,5 +1,40 @@
 //Write your javascript here, or roll your own. It's up to you.
 //Make your ajax call to http://localhost:8765/api/index.php here
+function CountriesTable({countries}) {
+    return (
+        <table className="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Alpha 2 Code</th>
+                    <th scope="col">Alpha 3 Code</th>
+                    <th scope="col">Flag</th>
+                    <th scope="col">Region</th>
+                    <th scope="col">Subregion</th>
+                    <th scope="col">Population</th>
+                    <th scope="col">Languages</th>
+                </tr>
+            </thead>
+            <tbody>
+                {countries.map((country, i) => {
+                    return (
+                        <tr key={i}>
+                            <th scope="row">{country.name}</th>
+                            <td>{country.alpha2code}</td>
+                            <td>{country.alpha3code}</td>
+                            <td><img className="flag-img" src={country.flag}></img></td>
+                            <td>{country.region}</td>
+                            <td>{country.subregion}</td>
+                            <td>{country.population}</td>
+                            <td>{country.languages.join(', ')}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+    );
+}
+
 function ErrorMsg({message}) {
     return (
         <div className="alert alert-danger text-center">{message}</div>       
@@ -48,7 +83,7 @@ class App extends React.Component {
         this.state = {
             search: '',
             searchType: 'Name',
-            results: {},
+            results: undefined,
             error: ''
         };
     }
@@ -62,6 +97,7 @@ class App extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         console.log(this.state.searchType);
+
         if (this.state.search === '') {
             this.setState({
                 error: 'Please enter a search query'
@@ -78,19 +114,21 @@ class App extends React.Component {
         .then(res => {
             console.log(res.data);
             this.setState({
-                error: ''
-            }); 
+                error: '',
+                results: res.data
+            });
         })
         .catch(err => {
             console.log(err.message);
             this.setState({
-                error: 'There are no results'
+                error: 'There are no results',
+                results: undefined
             });          
         });        
     }
   
     render() {
-        const {error, search} = this.state;
+        const {error, search, results} = this.state;
 
         return (
             <div>
@@ -102,6 +140,11 @@ class App extends React.Component {
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
                 />
+                {results && (
+                    <CountriesTable
+                        countries={results.countries}
+                    />
+                )}
             </div>       
        );
     }

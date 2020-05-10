@@ -1,6 +1,11 @@
 /*
 This css file is a placeholder. Use this or roll your own, choice is yours.
 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     margin: 20px;
 }
@@ -8,4 +13,9 @@ body {
 #form-container {
     margin-left: 25%;
     margin-right: 25%;
+    margin-bottom: 20px;
+}
+
+.flag-img {
+    max-width: 100px;
 }
