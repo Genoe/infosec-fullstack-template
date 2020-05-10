@@ -1,25 +1,28 @@
 //Write your javascript here, or roll your own. It's up to you.
 //Make your ajax call to http://localhost:8765/api/index.php here
-function RegionsTable({regions}) {
+function AreaInfoTable({title, areas, header, naText}) {
     return (
-        <table className="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Region</th>
-                    <th scope="col">Number of Countries in Results</th>
-                </tr>
-            </thead>
-            <tbody>
-                {Object.entries(regions).map(([region, freq], i) => {
-                    return (
-                        <tr key={i}>
-                            <th scope="row">{region !== '' ? region : 'Regionless'}</th>
-                            <td>{freq}</td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+        <div>
+            <h3 className="justify-content-md-center text-center">{title}</h3>
+            <table className="table table-striped table-bordered area-table">
+                <thead>
+                    <tr>
+                        <th scope="col">{header}</th>
+                        <th scope="col">Number of Countries in Results</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Object.entries(areas).map(([region, freq], i) => {
+                        return (
+                            <tr key={i}>
+                                <th scope="row">{region !== '' ? region : naText}</th>
+                                <td>{freq}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </div>
     );
 }
 
@@ -171,9 +174,26 @@ class App extends React.Component {
                         <h2 className="justify-content-md-center text-center">
                             Total Number of Countries: {results.countries.length}
                         </h2>
-                        <RegionsTable
-                            regions={results.regions}
-                        />
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-6">
+                                    <AreaInfoTable
+                                        title={'Region Data'}
+                                        areas={results.regions}
+                                        header={'Region'}
+                                        naText={'Regionless'}
+                                    />
+                                </div>
+                                <div className="col-lg-6">
+                                    <AreaInfoTable
+                                        title={'Subregion Data'}
+                                        areas={results.subregions}
+                                        header={'Subregion'}
+                                        naText={'Subregionless'}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>                 
                 )}
             </div>       
