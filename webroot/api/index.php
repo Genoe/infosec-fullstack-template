@@ -11,14 +11,14 @@ $api = new CountriesAPI();
 try {
    if ($pathInfo[3] === 'name') {
       $fullName = false;
-      $countryName = $pathInfo[4];
+      $countryName = trim(urldecode($pathInfo[4]));
 
       if (isset($_GET['fullName']) && strtolower($_GET['fullName']) !== 'false') {
          $fullName = true;
       }
       $data = $api->getCountriesByName($countryName, $fullName);
    } else if ($pathInfo[3] === 'alpha') {
-      $countryCode = $pathInfo[4];
+      $countryCode = trim(urldecode($pathInfo[4]));
       $data = $api->getCountriesByCode($countryCode);
    }
    
