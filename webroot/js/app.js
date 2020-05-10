@@ -120,13 +120,11 @@ class App extends React.Component {
         });
     }
 
-    handleSubmit = e => {
-        e.preventDefault();
-
+    submitForm = () => {
         const {search, searchType} = this.state;
         let searchUrlPath;
         let params;
-
+        
         if (search === '') {
             this.setState({
                 error: 'Please enter a search query'
@@ -152,11 +150,21 @@ class App extends React.Component {
             });
         })
         .catch(err => {
+            console.log(err);
             this.setState({
                 error: 'There are no results',
                 results: undefined
             });          
-        });        
+        });
+    }
+
+    handleSubmit = e => {
+        e.preventDefault();
+        
+        // always clear out error before submitting the form again
+        this.setState({
+            error: ''
+        }, this.submitForm);      
     }
   
     render() {
