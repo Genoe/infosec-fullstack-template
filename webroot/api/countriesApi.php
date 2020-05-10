@@ -37,6 +37,27 @@
         return (array)json_decode($response);
     }
 
+    public function getCountriesByCode($countryCode) {
+        $curl = curl_init();
+        $fullUrl = self::API_URL . 'alpha/' . $countryCode;
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $fullUrl) + 
+            self::CURL_CONFIG
+        );
+          
+        $response = curl_exec($curl);
+
+        if (curl_error($curl)) {
+            $response = curl_error($curl);
+            throw new Exception($response);
+        }
+
+        curl_close($curl);
+
+        return [json_decode($response)];
+    }
+
     public function generateData($response) {
         $countries = array();
         $regions = array();

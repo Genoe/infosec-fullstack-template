@@ -23,6 +23,16 @@ if ($pathInfo[3] === 'name') {
       http_response_code(500);
       $data = $e->getMessage();
    }      
+} else if ($pathInfo[3] === 'alpha') {
+   $countryCode = $pathInfo[4];
+   try {
+      $data = $api->getCountriesByCode($countryCode);
+      $data = $api->generateData($data);
+      $data['countries'] = $api->sortByPopulation($data['countries']);
+   } catch (Exception $e) {
+      http_response_code(500);
+      $data = $e->getMessage();
+   } 
 }
 
 header('Content-Type: application/json');

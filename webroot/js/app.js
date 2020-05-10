@@ -122,9 +122,12 @@ class App extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        console.log(this.state.searchType);
 
-        if (this.state.search === '') {
+        const {search, searchType} = this.state;
+        let searchUrlPath;
+        let params;
+
+        if (search === '') {
             this.setState({
                 error: 'Please enter a search query'
             });
@@ -132,20 +135,23 @@ class App extends React.Component {
             return;
         }
 
-        axios.get(`/api/index.php/name/${this.state.search}`, {
-            params: {
+        if (searchType === 'Name' || searchType === 'Full Name') {
+            searchUrlPath = 'name';
+            params = {
                 fullName: this.state.searchType === 'Full Name'
             }
-        })
+        } else {
+            searchUrlPath = 'alpha';
+        }
+
+        axios.get(`/api/index.php/${searchUrlPath}/${this.state.search}`, params)
         .then(res => {
-            console.log(res.data);
             this.setState({
                 error: '',
                 results: res.data
             });
         })
         .catch(err => {
-            console.log(err.message);
             this.setState({
                 error: 'There are no results',
                 results: undefined
